@@ -1,32 +1,13 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
+*~
+*.rviz
+ex_calib_result.yaml
+vins_result.csv
+simulation.launch
+simulation/
+data_generator/
+iphone.launch
+iphone/
+A3_rs/
+A3_rs.launch
+test/
+test.launch

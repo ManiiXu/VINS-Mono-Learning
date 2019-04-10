@@ -1,14 +1,12 @@
 # VINS-Mono-Learning
 
- VINS-Mono代码解读
-
-Forked from VINS-Mono: https://github.com/HKUST-Aerial-Robotics/VINS-Mono
-
-29 Dec 2017: New features: Add map merge, pose graph reuse, online temporal calibration function, and support rolling shutter camera. 
+ VINS-Mono代码注释，仅供学习 
 
 详细内容可参考微博
 [VINS-Mono论文学习与代码解读——目录与参考](https://blog.csdn.net/qq_41839222/article/details/85793998)
 
+Forked from VINS-Mono: https://github.com/HKUST-Aerial-Robotics/VINS-Mono  
+29 Dec 2017: New features: Add map merge, pose graph reuse, online temporal calibration function, and support rolling shutter camera. 
 
 ---
 
@@ -49,11 +47,11 @@ Forked from VINS-Mono: https://github.com/HKUST-Aerial-Robotics/VINS-Mono
 VINS是一种具有鲁棒性和通用性的单目视觉惯性状态估计器。  
 该算法主要有以下几个模块：  
  1. 预处理  
-1）图像特征光流跟踪  
-2）IMU数据预积分  
+&emsp; &emsp;1）图像特征光流跟踪  
+&emsp; &emsp;2）IMU数据预积分  
  2. 初始化  
-1）纯视觉Sfm  
-2）Sfm与IMU预积分的松耦合  
+&emsp; &emsp;1）纯视觉Sfm  
+&emsp; &emsp;2）Sfm与IMU预积分的松耦合  
  3. 基于滑动窗口的非线性优化  
  4. 回环检测与重定位  
  5. 四自由度位姿图优化  
@@ -91,8 +89,8 @@ node all![在这里插入图片描述](https://img-blog.csdnimg.cn/2019010810263
 &emsp; &emsp;keyframe.cpp	关键帧选取、描述子计算与匹配   
 &emsp; &emsp;pose\_graph.cpp 位姿图的建立与图优化  
 &emsp; &emsp;pose\_graph\_node.cpp	ROS 节点函数，回调函数，主线程  
-7、support\_files：帮助文档、Bow字典、Brief模板文件
-8、vins\_estimator  
+7、support\_files：帮助文档、Bow字典、Brief模板文件  
+8、vins\_estimator   
 &emsp; &emsp;factor：实现IMU、camera等残差模型  
 &emsp; &emsp;initial：系统初始化，外参标定，SFM  
 &emsp; &emsp;utility：相机可视化，四元数等数据转换  
@@ -121,3 +119,4 @@ https://github.com/castiel520/VINS-Mono	by [castiel520](https://github.com/casti
 
 https://github.com/QingSimon/VINS-Mono-code-annotation	by [QingSimon](https://github.com/QingSimon)
 
+----

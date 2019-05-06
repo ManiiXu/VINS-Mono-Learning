@@ -21,11 +21,11 @@ Forked from VINS-Mono: https://github.com/HKUST-Aerial-Robotics/VINS-Mono
 
  [VINS-Mono代码解读——视觉跟踪](https://blog.csdn.net/qq_41839222/article/details/85797156)
 
- VINS-Mono理论学习——IMU预积分
+ [VINS-Mono理论学习——IMU预积分](https://blog.csdn.net/qq_41839222/article/details/86290941)
 
  [VINS-Mono代码解读——状态估计器流程](https://blog.csdn.net/qq_41839222/article/details/86293038)
 
- [VINS-Mono代码解读——视觉惯性联合初始化](https://blog.csdn.net/qq_41839222/article/details/88942414)
+ [VINS-Mono代码解读——视觉惯性联合初始化流程](https://blog.csdn.net/qq_41839222/article/details/88942414)
 
  VINS-Mono理论学习——视觉惯性联合初始化与外参估计
 

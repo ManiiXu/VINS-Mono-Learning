@@ -169,10 +169,11 @@ void imu_callback(const sensor_msgs::ImuConstPtr &imu_msg)
     //判断时间间隔是否为正
     if (imu_msg->header.stamp.toSec() <= last_imu_t)
     {
-        ROS_WARN("imu message in disorder!");
+        //ROS_WARN("imu message ins disorder!");
         return;
     }
     last_imu_t = imu_msg->header.stamp.toSec();
+
 
     m_buf.lock();
     imu_buf.push(imu_msg);

@@ -57,7 +57,11 @@ class IntegrationBase
             propagate(dt_buf[i], acc_buf[i], gyr_buf[i]);
     }
 
-    //中值积分
+    /**
+    * @brief   IMU预积分中采用中值积分递推Jacobian和Covariance
+    *          构造误差的线性化递推方程，得到Jacobian和Covariance递推公式-> Paper 式9、10、11
+    * @return  void
+    */
     void midPointIntegration(double _dt, 
                             const Eigen::Vector3d &_acc_0, const Eigen::Vector3d &_gyr_0,
                             const Eigen::Vector3d &_acc_1, const Eigen::Vector3d &_gyr_1,
@@ -135,6 +139,7 @@ class IntegrationBase
 
     }
     
+
     /**
     * @brief   IMU预积分传播方程
     * @Description  积分计算两个关键帧之间IMU测量的变化量： 

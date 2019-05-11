@@ -27,9 +27,11 @@ Forked from VINS-Mono: https://github.com/HKUST-Aerial-Robotics/VINS-Mono
 
  [VINS-Mono代码解读——视觉惯性联合初始化流程](https://blog.csdn.net/qq_41839222/article/details/88942414)
 
- VINS-Mono理论学习——视觉惯性联合初始化与外参估计
+[VINS-Mono理论学习——视觉惯性对齐与外参标定](https://blog.csdn.net/qq_41839222/article/details/89106128)
 
- VINS-Mono代码解读——基于滑动窗口的非线性优化 
+ VINS-Mono代码解读——滑动窗口的边缘化与非线性优化
+
+ VINS-Mono理论学习——非线性优化
  
  [VINS-Mono代码解读——回环检测与重定位](https://blog.csdn.net/qq_41839222/article/details/87878550)
  

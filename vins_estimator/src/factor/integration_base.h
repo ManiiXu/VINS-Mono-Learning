@@ -8,7 +8,7 @@ using namespace Eigen;
 
 
 /**
-* @class IntegrationBase IMU预积分
+* @class IntegrationBase IMU预积分类
 * @Description 
 */
 class IntegrationBase

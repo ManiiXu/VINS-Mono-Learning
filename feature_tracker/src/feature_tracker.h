@@ -27,7 +27,7 @@ void reduceVector(vector<int> &v, vector<uchar> status);
 
 /**
 * @class FeatureTracker
-* @Description 对每个相机进行角点LK光流跟踪
+* @Description 视觉前端预处理：对每个相机进行角点LK光流跟踪
 */
 class FeatureTracker
 {
@@ -73,10 +73,10 @@ class FeatureTracker
     map<int, cv::Point2f> cur_un_pts_map;
     map<int, cv::Point2f> prev_un_pts_map;
 
-    camodocal::CameraPtr m_camera;
+    camodocal::CameraPtr m_camera;//相机模型
 
     double cur_time;
     double prev_time;
 
-    static int n_id;//用来作为特征点id，每检测到一个新的特征点，就将n_id作为该特征点的id，然后n_id加1
+    static int n_id;//特征点id，每检测到一个新的特征点，就将n_id作为该特征点的id，然后n_id加1
 };

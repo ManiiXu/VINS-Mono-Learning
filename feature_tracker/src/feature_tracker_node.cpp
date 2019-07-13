@@ -24,7 +24,7 @@ FeatureTracker trackerData[NUM_OF_CAM];
 double first_image_time;
 int pub_count = 1;
 bool first_image_flag = true;
-double last_image_time = 0;
+double last_image_time = 0;//上一帧相机的时间戳
 bool init_pub = 0;
 
 /**
@@ -41,13 +41,12 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
     if(first_image_flag)
     {
         first_image_flag = false;
-        first_image_time = img_msg->header.stamp.toSec();//记录图像帧的时间
+        first_image_time = img_msg->header.stamp.toSec();//记录第一个图像帧的时间
         last_image_time = img_msg->header.stamp.toSec();
         return;
     }
 
-    // detect unstable camera stream
-    // 通过判断时间间隔，有问题则restart
+    // 通过时间间隔判断相机数据流是否稳定，有问题则restart
     if (img_msg->header.stamp.toSec() - last_image_time > 1.0 || img_msg->header.stamp.toSec() < last_image_time)
     {
         ROS_WARN("image discontinue! reset the feature tracker!");
@@ -103,7 +102,7 @@ void img_callback(const sensor_msgs::ImageConstPtr &img_msg)
     {
         ROS_DEBUG("processing camera %d", i);
         if (i != 1 || !STEREO_TRACK)//单目
-            //FeatureTracker::readImage()函数读取图像数据进行处理
+            //readImage()函数读取图像数据进行处理
             trackerData[i].readImage(ptr->image.rowRange(ROW * i, ROW * (i + 1)), img_msg->header.stamp.toSec());
         else//双目
         {
@@ -239,10 +238,10 @@ int main(int argc, char **argv)
     //设置logger的级别。 只有级别大于或等于level的日志记录消息才会得到处理。
     ros::console::set_logger_level(ROSCONSOLE_DEFAULT_NAME, ros::console::levels::Info);
     
-    //读取config->euroc->euroc_config.yaml中的一些配置参数
+    //读取yaml中的一些配置参数
     readParameters(n);
 
-    //读取每个相机实例读取对应的相机内参
+    //读取每个相机实例对应的相机内参
     for (int i = 0; i < NUM_OF_CAM; i++) 
         trackerData[i].readIntrinsicParameter(CAM_NAMES[i]);
 
@@ -262,7 +261,7 @@ int main(int argc, char **argv)
         }
     }
 
-    //订阅话题IMAGE_TOPIC(/cam0/image_raw),执行回调函数
+    //订阅话题IMAGE_TOPIC(/cam0/image_raw),执行回调函数img_callback
     ros::Subscriber sub_img = n.subscribe(IMAGE_TOPIC, 100, img_callback);
 
     //发布feature，实例feature_points，跟踪的特征点，给后端优化用

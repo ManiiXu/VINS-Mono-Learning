@@ -52,13 +52,13 @@ void FeatureTracker::setMask()
         mask = cv::Mat(ROW, COL, CV_8UC1, cv::Scalar(255));
     
     // prefer to keep features that are tracked for long time
-    //构造(cnt，pts，id)序列
+    // 构造(cnt，pts，id)序列
     vector<pair<int, pair<cv::Point2f, int>>> cnt_pts_id;
 
     for (unsigned int i = 0; i < forw_pts.size(); i++)
         cnt_pts_id.push_back(make_pair(track_cnt[i], make_pair(forw_pts[i], ids[i])));
 
-    //对光流跟踪到的特征点forw_pts，按照被跟踪到的次数cnt从大到小排序
+    //对光流跟踪到的特征点forw_pts，按照被跟踪到的次数cnt从大到小排序（lambda表达式）
     sort(cnt_pts_id.begin(), cnt_pts_id.end(), [](const pair<int, pair<cv::Point2f, int>> &a, const pair<int, pair<cv::Point2f, int>> &b)
          {
             return a.first > b.first;
@@ -114,8 +114,8 @@ void FeatureTracker::readImage(const cv::Mat &_img, double _cur_time)
     TicToc t_r;
     cur_time = _cur_time;
 
-    //如果EQUALIZE=1，表示太亮或太暗
-    if (EQUALIZE)//判断是否进行直方图均衡化处理
+    //如果EQUALIZE=1，表示太亮或太暗，进行直方图均衡化处理
+    if (EQUALIZE)
     {
         //自适应直方图均衡
         //createCLAHE(double clipLimit, Size tileGridSize)
@@ -130,18 +130,17 @@ void FeatureTracker::readImage(const cv::Mat &_img, double _cur_time)
     if (forw_img.empty())
     {
         //如果当前帧的图像数据forw_img为空，说明当前是第一次读入图像数据
-        //将读入的图像赋给当前帧forw_img
-        //同时，还将读入的图像赋给prev_img、cur_img，这是为了避免后面使用到这些数据时，它们是空的
+        //将读入的图像赋给当前帧forw_img，同时还赋给prev_img、cur_img
         prev_img = cur_img = forw_img = img;
     }
     else
     {
-        //否则，说明之前就已经有图像读入
-        //所以只需要更新当前帧forw_img的数据
+        //否则，说明之前就已经有图像读入，只需要更新当前帧forw_img的数据
         forw_img = img;
     }
 
-    forw_pts.clear();//此时forw_pts还保存的是上一帧图像中的特征点，所以把它清除
+    //此时forw_pts还保存的是上一帧图像中的特征点，所以把它清除
+    forw_pts.clear();
 
     if (cur_pts.size() > 0)
     {
@@ -202,18 +201,18 @@ void FeatureTracker::readImage(const cv::Mat &_img, double _cur_time)
             if (mask.size() != forw_img.size())
                 cout << "wrong size " << endl;
             /** 
-            *void cv::goodFeaturesToTrack(    在mask中不为0的区域检测新的特征点
-            *   InputArray  image,              输入图像
-            *   OutputArray     corners,        存放检测到的角点的vector
-            *   int     maxCorners,             返回的角点的数量的最大值
-            *   double  qualityLevel,           角点质量水平的最低阈值（范围为0到1，质量最高角点的水平为1），小于该阈值的角点被拒绝
-            *   double  minDistance,            返回角点之间欧式距离的最小值
-            *   InputArray  mask = noArray(),   和输入图像具有相同大小，类型必须为CV_8UC1,用来描述图像中感兴趣的区域，只在感兴趣区域中检测角点
-            *   int     blockSize = 3,          计算协方差矩阵时的窗口大小
-            *   bool    useHarrisDetector = false,  指示是否使用Harris角点检测，如不指定则使用shi-tomasi算法
-            *   double  k = 0.04                Harris角点检测需要的k值
-            *)   
-            */
+             *void cv::goodFeaturesToTrack(    在mask中不为0的区域检测新的特征点
+             *   InputArray  image,              输入图像
+             *   OutputArray     corners,        存放检测到的角点的vector
+             *   int     maxCorners,             返回的角点的数量的最大值
+             *   double  qualityLevel,           角点质量水平的最低阈值（范围为0到1，质量最高角点的水平为1），小于该阈值的角点被拒绝
+             *   double  minDistance,            返回角点之间欧式距离的最小值
+             *   InputArray  mask = noArray(),   和输入图像具有相同大小，类型必须为CV_8UC1,用来描述图像中感兴趣的区域，只在感兴趣区域中检测角点
+             *   int     blockSize = 3,          计算协方差矩阵时的窗口大小
+             *   bool    useHarrisDetector = false,  指示是否使用Harris角点检测，如不指定则使用shi-tomasi算法
+             *   double  k = 0.04                Harris角点检测需要的k值
+             *)   
+             */
             cv::goodFeaturesToTrack(forw_img, n_pts, MAX_CNT - forw_pts.size(), 0.01, MIN_DIST, mask);
         }
         else

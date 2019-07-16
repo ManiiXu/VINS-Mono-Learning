@@ -637,9 +637,11 @@ void Estimator::vector2double()
         para_Td[0][0] = td;
 }
 
-//数据转换，vector2double的相反过程
+// 数据转换，vector2double的相反过程
+// 同时这里为防止优化结果往零空间变化，会根据优化前后第一帧的位姿差进行修正。
 void Estimator::double2vector()
 {
+    // 窗口第一帧之前的位姿
     Vector3d origin_R0 = Utility::R2ypr(Rs[0]);
     Vector3d origin_P0 = Ps[0];
 
@@ -649,10 +651,13 @@ void Estimator::double2vector()
         origin_P0 = last_P0;
         failure_occur = 0;
     }
+
+    // 优化后的位姿
     Vector3d origin_R00 = Utility::R2ypr(Quaterniond(para_Pose[0][6],
                                                       para_Pose[0][3],
                                                       para_Pose[0][4],
                                                       para_Pose[0][5]).toRotationMatrix());
+    // 求得优化前后的姿态差
     double y_diff = origin_R0.x() - origin_R00.x();
     //TODO
     Matrix3d rot_diff = Utility::ypr2R(Vector3d(y_diff, 0, 0));
@@ -664,7 +669,7 @@ void Estimator::double2vector()
                                        para_Pose[0][4],
                                        para_Pose[0][5]).toRotationMatrix().transpose();
     }
-
+    // 根据位姿差做修正，即保证第一帧优化前后位姿不变
     for (int i = 0; i <= WINDOW_SIZE; i++)
     {
 
@@ -957,6 +962,7 @@ void Estimator::optimization()
     ROS_DEBUG("Iterations : %d", static_cast<int>(summary.iterations.size()));
     ROS_DEBUG("solver costs: %f", t_solver.toc());
 
+    // 防止优化结果在零空间变化，通过固定第一帧的位姿
     double2vector();
 
     TicToc t_whole_marginalization;
